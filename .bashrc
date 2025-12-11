@@ -93,6 +93,98 @@ alias la='ls -A'
 alias l='ls -CF'
 alias c='clear'
 alias dev='npm run dev'
+alias keyboard-replacements='vim ~/.config/espanso/match/base.yml'
+alias copy-tree='tree -a -I "node_modules|.next|tiptap|.git" | xclip -selection clipboard'
+alias brc='vim /home/tyler/.bashrc'
+alias rld='source /home/tyler/.bashrc'
+
+# prints length of a given video file
+
+vidlen() {
+    if [[ -z "$1" ]]; then
+        echo "Error: No file provided."
+        echo "Usage: get_video_duration <video_file>"
+        return 1
+    fi
+
+    if [[ ! -f "$1" ]]; then
+        echo "Error: File '$1' not found."
+        return 1
+    fi
+
+    local duration=$(ffmpeg -i "$1" 2>&1 | grep "Duration" | awk '{print $2}' | tr -d ',' | awk -F ':' '{print ($1 * 3600) + ($2 * 60) + $3}')
+
+    if [[ -z "$duration" ]]; then
+        echo "Error: Could not extract duration from '$1'."
+        return 1
+    fi
+
+    echo "$duration"
+}
+
+# count the number of each file extension in the current directory
+
+extcount() {	
+    local extensions=$(find . -maxdepth 1 -type f | sed -E 's/.*\.([^.]+)$/\1/' | grep -v '^$' | sort | uniq -c | sort -nr)
+    local total_files=$(find . -maxdepth 1 -type f | wc -l)
+
+    echo "File extensions in current directory:"
+    echo "-----------------------------------"
+    echo "$extensions"
+    echo "-----------------------------------"
+    echo "Total files: $total_files"
+}
+
+
+# function to print the created/modified times of a given file
+
+age() {
+    if [ -z "$1" ]; then
+        echo "Usage: age <file>"
+        return 1
+    fi
+
+    if [ ! -e "$1" ]; then
+        echo "Error: File '$1' does not exist."
+        return 1
+    fi
+
+    stat -c '%w | %y' "$1" | awk -F '|' '{ printf "Created: %s\nModified: %s\n", $1, $2 }'
+}
+
+# function to count the number of items in a given directory
+
+count() {
+    if [ -z "$1" ]; then
+        echo "Usage: count /path/to/directory"
+        return 1
+    fi
+
+    if [ ! -d "$1" ]; then
+        echo "Error: '$1' is not a valid directory."
+        return 1
+    fi
+
+    ls -1A "$1" | wc -l
+}
+
+# function to record audio computer is playing (q to quit recording)
+
+record() {
+    local filename="output$(shuf -i 1000-9999 -n 1).mp3"
+    ffmpeg -f pulse -i alsa_output.pci-0000_00_1f.3.analog-stereo.monitor -codec:a libmp3lame -qscale:a 0 "$filename"
+}
+
+# function to copy text of a file to clipboard
+
+clip() {
+  if [ -f "$1" ]; then
+    xclip -selection clipboard < "$1"
+    echo "Copied $1 to clipboard"
+  else
+    echo "File not found: $1"
+  fi
+}
 
 # funciton to get public ip address (IPv4 preferred)
 
@@ -136,3 +228,4 @@ eval "$(starship init bash)"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+. "/home/tyler/.deno/env"
