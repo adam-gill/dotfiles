@@ -1,0 +1,34 @@
+{
+    "workbench.colorTheme": "Tokyo Night",
+    "window.zoomLevel": 1,
+    "editor.fontFamily": "JetBrainsMono NF",
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.activityBar.location": "top",
+    "editor.fontSize": 15,
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "cSpell.userWords": [
+        "Buildx",
+        "denoland",
+        "didn",
+        "ffprobe",
+        "fgapi",
+        "filegilla",
+        "ghostscript",
+        "hayd",
+        "hdrs",
+        "keyrings",
+        "lebron",
+        "magick",
+        "nodenext",
+        "presigner",
+        "signups",
+        "sparticuz",
+        "trixie"
+    ],
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[prisma]": {
+        "editor.defaultFormatter": "Prisma.prisma"
+    }
+}
