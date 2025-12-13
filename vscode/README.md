@@ -15,3 +15,5 @@ To install vs code extensions from your list, run the following command:
 ```bash
 xargs -L 1 code --install-extension < /path/to/your/extensions-list.txt
 ```
+
+
