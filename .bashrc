@@ -47,12 +47,12 @@ esac
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
     else
-	color_prompt=
+        color_prompt=
     fi
 fi
 
@@ -124,7 +124,7 @@ vidlen() {
 
 # count the number of each file extension in the current directory
 
-extcount() {	
+extcount() {
     local extensions=$(find . -maxdepth 1 -type f | sed -E 's/.*\.([^.]+)$/\1/' | grep -v '^$' | sort | uniq -c | sort -nr)
     local total_files=$(find . -maxdepth 1 -type f | wc -l)
 
@@ -188,7 +188,7 @@ clip() {
 
 # funciton to get public ip address (IPv4 preferred)
 
-function ipchicken() {
+ipchicken() {
     # Fetch the HTML content of ipchicken.com
     html_content=$(curl -s https://ipchicken.com)
 
@@ -229,3 +229,15 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 . "/home/tyler/.deno/env"
+
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+# pnpm
+export PNPM_HOME="/home/tyler/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
